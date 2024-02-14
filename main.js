@@ -32,22 +32,25 @@ underLine.style.left=tabFirst.offsetLeft + "px"
 underLine.style.width=tabFirst.offsetWidth + "px"
 
 
-addButton.addEventListener("click", addTask);
+addButton.addEventListener("click", function(){
+    if(taskInput.value == ""){
+        alert("할 일을 입력해 주세요!");
+        return;
+    }
+    addTask(); 
+});
 taskInput.addEventListener("focus", function(){
     taskInput.value="";
 })
 
-let enterPressed = false;
 taskInput.addEventListener("keyup", function(event){
-    if(event.key === 'Enter' && !enterPressed){
-        enterPressed = true;
-        addTask();
-    }
-});
-taskInput.addEventListener("keydown", function(event){
     if(event.key === 'Enter'){
-        enterPressed = false;
-    }
+        event.preventDefault();
+        if(taskInput.value.trim() !== "") {
+            addTask();
+        }
+        taskInput.value = "";
+    } 
 });
 
 
@@ -63,16 +66,14 @@ for (let i=1; i<tabs.length; i++){
 
 
 function addTask(){
-    if(taskInput.value == ""){
-        alert("할 일을 입력해 주세요!");
-        return;
-    }
+   
     let task = {
         id: randomIDGenerate(),
         taskContent: taskInput.value,
         date : currentDate,
         isComplete: false,
     }
+    
     taskList.push(task);
     render();
 }

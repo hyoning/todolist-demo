@@ -36,14 +36,6 @@ addButton.addEventListener("click", addTask);
 taskInput.addEventListener("focus", function(){
     taskInput.value="";
 })
-taskInput.addEventListener("keydown", function(event){
-    if(event.key === 'Enter'){
-        event.preventDefault;
-        addTask();
-        taskInput.value='';
-    }
-});
-
 
 for (let i=1; i<tabs.length; i++){
     tabs[i].addEventListener("click", function(event){

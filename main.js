@@ -37,6 +37,21 @@ taskInput.addEventListener("focus", function(){
     taskInput.value="";
 })
 
+let enterPressed = false;
+taskInput.addEventListener("keyup", function(event){
+    if(event.key === 'Enter' && !enterPressed){
+        enterPressed = true;
+        addTask();
+    }
+});
+taskInput.addEventListener("keydown", function(event){
+    if(event.key === 'Enter'){
+        enterPressed = false;
+    }
+});
+
+
+
 for (let i=1; i<tabs.length; i++){
     tabs[i].addEventListener("click", function(event){
         underLine.style.left=event.currentTarget.offsetLeft + "px"

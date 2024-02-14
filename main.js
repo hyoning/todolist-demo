@@ -11,14 +11,51 @@
 
 let taskInput = document.getElementById("task-input");
 let addButton = document.getElementById("add-button");
+let tabs = document.querySelectorAll(".task-tabs div");
+let underLine = document.getElementById("under-line");
+let tabFirst = document.getElementById("all")
+let mode = "all"
+
 let taskList = []
+let filterList = []
+let list = []
+
+//날짜 데이터 추가
+let today = new Date();
+let year = today.getFullYear();
+let month = ('0' + (today.getMonth() + 1)).slice(-2);
+let day = today.getDate();
+let currentDate = `${year}.${month}.${day}`;
+
+
+underLine.style.left=tabFirst.offsetLeft + "px"
+underLine.style.width=tabFirst.offsetWidth + "px"
 
 addButton.addEventListener("click", addTask);
+taskInput.addEventListener("focus", function(){
+    taskInput.value="";
+})
+
+
+for (let i=1; i<tabs.length; i++){
+    tabs[i].addEventListener("click", function(event){
+        underLine.style.left=event.currentTarget.offsetLeft + "px"
+        underLine.style.width=event.currentTarget.offsetWidth + "px"
+        mode = event.target.id;
+        render();
+    })
+}
+
 
 function addTask(){
+    if(taskInput.value == ""){
+        alert("할 일을 입력해 주세요!");
+        return;
+    }
     let task = {
         id: randomIDGenerate(),
         taskContent: taskInput.value,
+        date : currentDate,
         isComplete: false,
     }
     taskList.push(task);
@@ -26,25 +63,31 @@ function addTask(){
 }
 
 function render(){
+    let list = []
+    if(mode === "all"){
+        list = taskList;
+    } else if(mode === "ongoing"){
+        list = taskList.filter((task) => task.isComplete === false);
+    } else if(mode === "done"){
+        list = taskList.filter((task) => task.isComplete === true);
+    }
+
     let resultHTML = "";
-    for(let i=0; i < taskList.length; i++){
-        if(taskList[i].isComplete == true){
-            resultHTML+=`<div class="task">
-                            <div class="task-done">${taskList[i].taskContent}</div>
-                            <div>
-                                <button onClick = "toggleComplete('${taskList[i].id}')">Check</button>
-                                <button onClick = "deleteTask('${taskList[i].id}')">Delete</button>
+    for(let i=0; i < list.length; i++){   
+            resultHTML+=`<div class="task  ${list[i].isComplete==true?`task-done`:``}">
+                            <div class="check-button">
+                                <button onClick = "toggleComplete('${list[i].id}')"></button>
+                            </div>
+                            <div class="task-contain">
+                                <div class="task-memo">
+                                    ${list[i].taskContent}
+                                    <span>${currentDate}</span>    
+                                </div>
+                                <div class="delete-button"> 
+                                    <button onClick = "deleteTask('${list[i].id}')"></button>
+                                </div>
                             </div>
                         </div>`;
-        } else{
-            resultHTML += `<div class="task">
-                                <div>${taskList[i].taskContent}</div>
-                                <div>
-                                    <button onClick = "toggleComplete('${taskList[i].id}')">Check</button>
-                                    <button onClick = "deleteTask('${taskList[i].id}')">Delete</button>
-                                </div>
-                            </div>`;
-        }
     }
     document.getElementById('task-board').innerHTML = resultHTML;
 }
@@ -60,11 +103,8 @@ function toggleComplete(id){
 }
 
 function deleteTask(id){
-    for(let i=0; i<taskList.length; i++){
-        if(taskList[i].id == id){
-            taskList.splice(i,1)
-            break;
-        }
+    if(confirm("정말 삭제 하시겠습니까?")){
+        taskList = taskList.filter(item => item.id != id);
     }
     render();
 }

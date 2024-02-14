@@ -1,40 +1,167 @@
 body{
+    width:100%;
+    height:100vh;
     margin:0;
-    background-image: url('images/background.jpg');
+    background-color:#f7f7f7;
+    position: relative;
+    font-family: "Noto Sans KR", sans-serif;
+    background-image: url(images/bg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
-
-.container{
-    min-height: 100vh;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+h1{
+    font-family: "Montserrat", sans-serif;
+    width:100%;
+    padding:40px 0 30px;
+    margin:0;
+    font-size:2rem;
+    line-height: 1;
 }
-.task-area{
-    border:1px solid lightgray;
+
+.container * {
+    box-sizing: border-box;
+}
+.container{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    width:100%;
+    max-width: 500px;
+    height: 1000px;
+    max-height:80vh;
+    background-color: white;
+    text-align:center;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.input-area{
+    width:86%;
+    margin:0 auto;
+    background:#f7f7f7;
+    border-radius: 10px;
+    height:40px;
+    margin-bottom:40px;
+    display: flex;
+}
+#task-input{
+    flex: 1 1 auto;
+    border:0;
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    background:#f7f7f7;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding-left: 20px;
+}
+#add-button{
+    flex: 0 0 40px;
+    width:40px;
+    border:0;
+    background:transparent;
+    cursor: pointer;
 }
 .task-tabs{
     display: flex;
-    border-bottom:1px solid lightgray;
+    justify-content: center;
     position: relative;
 }
 .task-tabs div{
-    padding:1em;
+    padding-bottom: 10px;
+    margin: 0 1rem;
+    cursor: pointer;
+    color:#222;
 }
 #under-line{
-    height: 4px;
-    background-color: pink;
+    height: 2px;
+    background-color: #000;
     position: absolute;
-    width:80px;
-    left:0;
-    bottom:0;
+    top: 30px;
     padding:0;
+    margin:0;
+    transition: 0.4s;
+}
+
+.task-area{
+    width: 100%;
+    height: calc(100% - 2rem - 150px);
+    display: flex;
+    flex-direction: column;
+}
+.task-tabs{
+    width: 100%;
+    flex: 0 0 40px;
+}
+#task-board{
+    flex:1 1 auto;
+    width: 100%;
+    padding: 10px 0 10px 0;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap:10px;
 }
 .task{
+    width:100%;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     padding: 1em;
+    width:86%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 0px 8px;
+    border-radius: 18px;
+    gap:10px
 }
-.task-done{
+.task.task-done{
+    background:#eee;
+}
+.check-button{
+    flex: 0 0 40px;
+    width:40px;
+}
+.check-button button{
+    background: url('/images/check.svg') #5093E2;
+    width:36px;
+    height:36px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border:0;
+    border-radius: 100%;
+    cursor: pointer;
+}
+.delete-button button{
+    background: url('/images/close.svg') transparent;
+    width:20px;
+    height:20px;
+    border:0;
+    border-radius: 100%;  
+    cursor: pointer;
+}
+.task-contain{
+    width:100%;
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: space-between;
+    align-items: center;
+}
+.task-memo{
+    width:100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+.task-memo span{
+    font-size:12px;
+    color:#999;
+}
+.task-done .task-memo{
     text-decoration: line-through;
+}
+.task-done .check-button button{
+    background: url('/images/check.svg') #aaa;
 }
